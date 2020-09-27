@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+	<meta charset="utf-8">
+	<meta name="viewport" content="width = device-width initial-scale=1.0">
+	<title> live quotes  </title>
+
+
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+
+<link href="https://fonts.googleapis.com/css2?family=Aclonica&display=swap" rel="stylesheet">
+	<style> 
+
+		*{
+			margin: 0px; padding: 0px;
+			box-sizing: border-box;
+		}
+
+.main_div {height: 100vh ; width: 100vw; 
+background: #34495e;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;}
+
+.center_div {height: 70vh ; width: 70vw; 
+background: #2ecc71; 
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+border-radius: 15px;
+-webkit-box-shadow: 3px 3px 16px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 3px 3px 16px 0px rgba(0,0,0,0.75);
+box-shadow: 3px 3px 16px 0px rgba(0,0,0,0.75);}
+
+.mid_div {height: 40vh ; width: 40vw; 
+background: #badc58;
+padding: 15px;
+-webkit-box-shadow: 3px 3px 16px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 3px 3px 16px 0px rgba(0,0,0,0.75);
+box-shadow: 3px 3px 16px 0px rgba(0,0,0,0.75);
+border-radius: 20px;}
+
+@media(max-width: 768px){
+
+.mid_div{height: 100vh!important; width: 100vw;
+
+display: flex;flex-direction: column;
+justify-content: center;
+align-items: center;}
+
+}
+
+
+	</style>
+</head>
+<body>
+
+
+	<div class="main_div">
+
+<i class="fab fa-twitter fa-2x container ml-auto" style="color: skyblue; float: left;" title="post on twiter" id="tweet"></i>
+
+
+<div class="center_div">
+	<div class="mid_div">
+
+<h3 id="myquotes" style="font-family: 'Aclonica', sans-serif; "> </h3>
+
+<h5 id="author" style="float: right;" >  </h5>
+<button class="btn btn-block btn-warning mt-5"  onclick="next()" style="position:relative;"  >  NEXT  </button>
+</div>
+</div>
+
+
+<script>
+
+let realData = "";
+
+
+const New = Math.floor(Math.random() * 1643) ;
+
+const getquotes = async () => {
+const x = "https://type.fit/api/quotes";
+
+try{
+
+	let data = await fetch(x);
+
+	 realData =  await data.json();
+let short = realData[New];
+const myquotes = document.getElementById('myquotes');
+myquotes.innerHTML = short.text ;
+
+const author = document.getElementById('author');
+
+
+let writer = short.author ;
+
+if (writer == null) {author.innerHTML = "unKnown";}
+else{
+	author.innerHTML = '"' + short.author + '" ';
+}
+
+
+}
+catch(error){}
+
+}
+
+getquotes();
+
+function next(){ 
+
+location.reload();
+}
+
+const tweeter = () => {
+
+let posttweet = `https://twitter.com/intent/tweet?text=${myquotes.innerHTML}  ${author.innerHTML}`;
+window.open(posttweet);
+
+
+}
+const tweetme = document.getElementById('tweet');
+
+tweetme.addEventListener('click' , tweeter);
+
+
+
+</script>
+
+
+
+</body>
+</html>
